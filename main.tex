@@ -1,17 +1,71 @@
-\documentclass{article}
+\documentclass[12pt]{article}
+\usepackage{nottingham-logbook}
 \usepackage{nott-titlepage}
+\usepackage{hyperref}
 \usepackage{graphicx}
 
-\title{Nottingham Report Template}
-\author{ecyht2}
-\date{April 20 1969}
-\studentid{42069420}
-\module{EEEE6969 LaTeX \textgreater Word}
-\department{Department of XXX}
+\title{Group Project Logbook}
+\author{Tan Hong Kai}
+\studentid{20386501}
+\date{Year 2023 - 2024}
+\department{Department of Electrical and Electronics Engineering}
 
 \begin{document}
 \maketitle
 
-\section{Introduction}
+\begin{logbook-entry}{Path Generation}{27}{04/03/2024}{08/03/2024}
+The path generation and points interpolation algorithm is worked on.
+
+\subsection*{Path Generation}
+A simple algorithm is used to generate the path followed by the boat.
+The algorithm can be split into a few main logic.
+
+\begin{enumerate}
+    \item Pick an initial starting point of the boat (the first point inserted by the user)
+    \item Find the nearest point to the initial point (using Haversine formula (provided by maplibrejs library))
+    \item Add the nearest point to the path
+    \item Use repeat step 2 with the new point as the new initial point
+    \item The algorithm ends when all the input points are used
+\end{enumerate}
+
+The algorithm is simple and works but will sometimes generate path that intersects.
+This is not ideal as this would mean the boat will collect redundant data (data in the same coordinate).
+However, this is good enough for now but a better algorithm can be used.
+
+\subsection*{Point Interpolation}
+The Haversine Formula can be used to interpolate the points in between the path.
+This can be done by using the bearing from the staring to the ending point of the path and the distance from the starting point.
+The equations are shown below:
+
+New Latitude:
+\begin{equation}
+    \phi{}_{2} = \arcsin{(\sin{\phi{}_{1}} \cos{\delta} + \cos{\phi{}_{1}} \sin{\delta} \cos{\theta})}
+\end{equation}
+
+New Longitude:
+\begin{equation}
+    \lambda{}_{2} = \lambda{}_{1} + \arctan{(\frac{\sin{\theta} \sin{\delta} \cos{\phi{}_{1}}}{\cos{\delta} - \sin{\phi_{1} \sin{\phi_{2}}}})}
+\end{equation}
+
+Variables:
+
+$\delta = d / R$
+
+$d = $ distance from the starting point
+
+$R = $ the radius of Earth
+
+$\phi_1 = $ The latitude of the starting point
+
+$\lambda_1 = $ The longitude of the starting point
+
+$\theta = $ The bearing from north
+
+\subsection*{Resources}
+\begin{itemize}
+    \item \href{https://stackoverflow.com/questions/14263284/create-non-intersecting-polygon-passing-through-all-given-points}{Better Path Generation}
+    \item \href{https://www.movable-type.co.uk/scripts/latlong.html}{Haversine Formula}.
+\end{itemize}
+\end{logbook-entry}
 
 \end{document}
