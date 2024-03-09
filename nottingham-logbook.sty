@@ -1,0 +1,32 @@
+\ProvidesPackage{nottingham-logbook}
+
+% Required Packages
+% Title Page
+\RequirePackage{multirow}
+% Content Tables
+\RequirePackage[table]{xcolor}
+
+% Indentation
+\setlength{\parindent}{0pt}
+
+% Content Tables
+\newlength{\tablelength}
+\setlength{\tablelength}{\textwidth}
+\addtolength{\tablelength}{-2\tabcolsep}
+\addtolength{\tablelength}{-1pt}
+
+\newenvironment{logbook-entry}[4]
+{\begin{tabular}{| l | l | l | l |}
+        \hline
+        Title: & \multicolumn{3}{l|}{#1}             \\
+        \hline
+        Week:  & \multicolumn{3}{l|}{#2}             \\
+        \hline
+        From   & {#3}                    & To & {#4} \\
+        \hline
+    \end{tabular}
+    \vspace{1em}
+
+}{
+    \clearpage
+}
