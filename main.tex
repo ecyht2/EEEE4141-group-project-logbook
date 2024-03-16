@@ -13,6 +13,53 @@
 \begin{document}
 \maketitle
 
+\begin{logbook-entry}{Import Export}{25}{19/02/2024}{23/02/2024}
+The map on the desktop application is only capable of display on route at a time.
+However, the stakeholder might want to collect data from multiple different water-body and or set multiple paths for the same water body.
+
+The desktop application should have a way to import and export paths.
+This allows the user to save paths for different data collection tasks.
+
+GeoJSON is a file format for describing geographical features.
+There are several types of features:
+
+\begin{itemize}
+    \item Point
+    \item LineString
+    \item Polygon
+    \item MultiPoint
+    \item MultiLineString
+    \item MultiPolygon
+    \item GeometryCollection
+\end{itemize}
+
+Maplibre JS has built in support for displaying data in GeoJSON, making it a suitable file format for storing the path.
+The GeoJSON file being imported and exported is made out of a FeatureCollection.
+The feature collection contains the following features:
+
+\begin{itemize}
+    \item MultiPoint feature used to describe all the location where the data is going to be collected.
+    \item LineString feature used to describe the path the boat is going to follow.
+    \item A version foreign member to describe what version of the file format being used (useful for future changes to the file format).
+\end{itemize}
+
+This format is used both internally by the application and external for user import and export.
+Every time the user changes the path and or collection point, the path is saved to the application's internal storage.
+Exporting and importing paths can be done using buttons.
+The buttons will display a file picker to choose where to save the file to or which file to import from.
+
+The state of the path used by Maplibre is serialized and deserialized using the serde library.
+However, whenever something is imported, a function would check the validity of the GeoJSON file.
+This is to ensure the required items are present in the file being imported.
+
+\subsection*{Resources}
+
+\begin{itemize}
+    \item \href{https://datatracker.ietf.org/doc/html/rfc7946}{GeoJSON RFC}
+\end{itemize}
+
+\end{logbook-entry}
+
 \begin{logbook-entry}{Heatmap}{26}{26/02/2024}{01/03/2024}
 A heatmap is a good way to display the temperature variation in an area.
 A heatmap can be used to display temperature information using different colour.

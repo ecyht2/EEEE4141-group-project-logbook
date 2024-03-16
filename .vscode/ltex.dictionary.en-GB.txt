@@ -1,2 +1,8 @@
 GeoJSON
 Maplibre
+LineString
+MultiLineString
+MultiPolygon
+GeometryCollection
+serde
+FeatureCollection
