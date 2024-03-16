@@ -13,6 +13,61 @@
 \begin{document}
 \maketitle
 
+\begin{logbook-entry}{Heatmap}{26}{26/02/2024}{01/03/2024}
+A heatmap is a good way to display the temperature variation in an area.
+A heatmap can be used to display temperature information using different colour.
+For example, a red area represents high temperature while a blue area represents a cold area.
+
+A heatmap is a good feature for the desktop application to quickly interpret the data received from the robot.
+However, for further analysis of the collected data, the data has to be exported.
+
+Maplibre JS provides a way to display heatmap data.
+A heatmap layer for Maplibre can customize the colour of the heatmap based on density of the heat map in a spot.
+The heatmap weight and intensity controls the density of the heatmap at a point on the map.
+The heatmap colour can be modified to change the colour based on the density of the heatmap.
+Lastly, the radius of each data point controls how spread out the heatmap is, and the opacity controls the opacity of the heatmap.
+
+Scientists and data analysis used spreadsheet program to process data.
+There are many formats available that are compatible with spreadsheets.
+Some notable examples are:
+
+\begin{itemize}
+    \item Excel Spreadsheet (.xls/.xlsx)
+    \item XML (.xml)
+    \item Comma-separated Values (CSV) (.csv)
+    \item OpenDocument (.ods)
+\end{itemize}
+
+The main format to import and export data from the desktop application is Comma-separated Values.
+It is a plain text file format that is easy to understand and universal.
+Most/all spreadsheet programs have built in support for parsing CSV.
+There are also plenty of libraries in many programming languages such as Python to parse CSV as well.
+The universality and standardization of this file format is the main reason why CSV is used.
+
+An additional file format is used for internal used of the application.
+The file format is GeoJSON.
+This is due to the fact that the Maplibre JS library expects data to be in this format.
+Saving the results in this format makes sense and simplifies the logic to display the heatmap.
+
+\subsection*{The CSV Format}
+
+The CSV file format is a plain text format to store data.
+Each line represents a specific record of data.
+The values for each record are separated using commas, hence the name comma-separated values.
+An optional heading row can be set using the first row of the CSV file.
+
+The data exported from the desktop application have the following values:
+
+\begin{itemize}
+    \item The temperature in \textdegree{C}
+    \item The depth in millimetres
+    \item The layer in water body the temperature is collected at (Sea Bed, Middle or Surface)
+    \item The timestamp of the data in Unix Time
+    \item The latitude coordinate of the data point
+    \item The longitude coordinate of the data point
+\end{itemize}
+\end{logbook-entry}
+
 \begin{logbook-entry}{Path Generation}{27}{04/03/2024}{08/03/2024}
 The path generation and points interpolation algorithm is worked on.
 
@@ -22,7 +77,7 @@ The algorithm can be split into a few main logic.
 
 \begin{enumerate}
     \item Pick an initial starting point of the boat (the first point inserted by the user)
-    \item Find the nearest point to the initial point (using Haversine formula (provided by maplibrejs library))
+    \item Find the nearest point to the initial point (using Haversine formula (provided by Maplibre JS library))
     \item Add the nearest point to the path
     \item Use repeat step 2 with the new point as the new initial point
     \item The algorithm ends when all the input points are used
@@ -92,15 +147,15 @@ Some mediums considered were:
     \label{tab:comm-medium}
     \vspace{1em}
     \begin{tabular}{ p{7em} p{10em} p{10em} }
-        Communication Medium & Advantages & Disadvantages\\
+        Communication Medium & Advantages                                               & Disadvantages                                                              \\
         \hline
-        RF & Wireless, Does not need connection with the Raspberry Pi  & Slow and Limited Packet Size\\
+        RF                   & Wireless, Does not need connection with the Raspberry Pi & Slow and Limited Packet Size                                               \\
         \hline
-        USB Cable & Simple and Practical & Requires physical access to the boat\\
+        USB Cable            & Simple and Practical                                     & Requires physical access to the boat                                       \\
         \hline
-        Bluetooth & Wireless, Easy discovery of robot & Requires Bluetooth connection with the Raspberry Pi, short range\\
+        Bluetooth            & Wireless, Easy discovery of robot                        & Requires Bluetooth connection with the Raspberry Pi, short range           \\
         \hline
-        TCP & Wireless, Fast data transfers & Requires LAN connection with Pi, medium range, compatible with all laptops\\
+        TCP                  & Wireless, Fast data transfers                            & Requires LAN connection with Pi, medium range, compatible with all laptops \\
         \hline
     \end{tabular}
 \end{table}
