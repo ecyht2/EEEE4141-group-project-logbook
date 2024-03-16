@@ -13,6 +13,20 @@
 \begin{document}
 \maketitle
 
+\begin{logbook-entry}{Map Logic 2}{23}{05/02/2024}{09/02/2024}
+When planning a path for the robot boat to follow, it is essential to move waypoints around.
+This allows users to try out different configurations with different way point positions.
+
+Maplibre has a special map item for marking points that can be moved around.
+A marker can be used to mark specific important points on the map.
+The marker can then be dragged around the map.
+
+When a marker is moved, the new location of the marker can be used as a new waypoint.
+This can be done using the "drag" event emitted by the marker.
+The "drag" event contains information about the new coordinate the marker is on.
+The path then can update accordingly based on the new coordinate.
+\end{logbook-entry}
+
 \begin{logbook-entry}{Import Export}{25}{19/02/2024}{23/02/2024}
 The map on the desktop application is only capable of display on route at a time.
 However, the stakeholder might want to collect data from multiple different water-body and or set multiple paths for the same water body.
