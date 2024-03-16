@@ -13,6 +13,22 @@
 \begin{document}
 \maketitle
 
+\begin{logbook-entry}{Map Logic}{22}{29/01/2024}{02/02/2024}
+One of the main goals of the desktop application is to set the path the boat is going to follow.
+This will inform the boat where the temperature data should be collected.
+
+The user can input waypoints for the boat to reach.
+This will determine the path the boat will follow.
+The Maplibre JS provides a way to listen when the user clicks on the map.
+A new waypoint can be added at the location the user clicked on.
+
+The path can then be generated using the waypoints.
+Currently, the path follows the order the points is added.
+This will cause the path to intersect.
+This is not ideal as this will cause duplication of data points.
+A better algorithm is needed to generate a path that does not intersect.
+\end{logbook-entry}
+
 \begin{logbook-entry}{Map Logic 2}{23}{05/02/2024}{09/02/2024}
 When planning a path for the robot boat to follow, it is essential to move waypoints around.
 This allows users to try out different configurations with different way point positions.
