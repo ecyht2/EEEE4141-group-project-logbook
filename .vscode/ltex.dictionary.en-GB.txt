@@ -6,3 +6,6 @@ MultiPolygon
 GeometryCollection
 serde
 FeatureCollection
+Protobuf
+protobuf
+protobufs

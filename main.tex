@@ -258,4 +258,48 @@ Before and after each operation of the boat, the user need to collect/place down
 The user will have physical access to the boat and therefore can use the USB cable.
 \end{logbook-entry}
 
+\begin{logbook-entry}{Communication Protocol 2}{29}{18/03/2024}{22/03/2024}
+For the communication protocol to efficiently communicate between the boat and the desktop application, a format must be agreed on.
+The representation of data being transferred plays a huge role the speed at which data can be transferred.
+
+\subsection*{Data Serialization}
+
+There are many ways a data can be serialized and deserialized.
+However, there are two main categories, plain text and binary.
+Plain text sends data in text format such as English characters.
+This is easier to understand and debug by a human.
+However, this has the cost of using more bandwidth to transfer each data.
+Binary format on the other hand serialize data into binary representation.
+This is easier for a computer to parse and requires less bandwidth, hence have a faster speed.
+It is hard for a human to understand binary data, and it is harder to debug any issues with the serialized data.
+Some data serialization formats considered is shown in Table \ref{tab:data-serialization}.
+
+\begin{table}[ht]
+    \centering
+    \caption{Table Comparing Some Notable Serialization Formats}
+    \label{tab:data-serialization}
+    \vspace{1em}
+    \begin{tabular}{ p{7em} p{3em} p{10em} p{10em} }
+        Serialization Format & Type       & Advantages                                           & Disadvantages                                          \\
+        \hline
+        JSON                 & Plain Text & Universal, Simple to Read                            & Requires high bandwidth                                \\
+        \hline
+        Raw Text             & Plain Text & Simple to Implement                                  & Requires good documentation and no standardization     \\
+        \hline
+        Protobuf             & Binary     & Wide language support and good forward compatibility & Requires a separate protocol file                      \\
+        \hline
+        Python Pickle        & Binary     & Can serialize into types                             & Limited language support and potential security issues \\
+        \hline
+    \end{tabular}
+\end{table}
+
+The protocol buffer (protobuf) by Google is chosen to be the communication protocol serialization format.
+This is due to the wide language support.
+The code written on the boat is in Python while the desktop application is written in Rust and JavaScript.
+There are built in support for Python and JavaScript, while Rust has a well maintained library for parsing protobufs making it ideal for the use case.
+JSON isn't chosen due to the bandwidth and parsing time of large data.
+The communication protocol will send large data such as high precision temperature data will cause the bandwidth to be high.
+Therefore, it makes communication in JSON not ideal.
+\end{logbook-entry}
+
 \end{document}
