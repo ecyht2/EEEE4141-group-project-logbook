@@ -13,6 +13,36 @@
 \begin{document}
 \maketitle
 
+\begin{logbook-entry}{UI Design}{15}{11/12/2023}{15/12/2023}
+This week, I worked on the main user interface looks and layout.
+There is no logic implemented yet and only the layout and looks are designed.
+A simple scratch of the user interface is drawn on paper to brain storm potential desgins.
+A scratch helps presents potential solution for the user interface for other people to review.
+
+Some scratches are dicussed within the team.
+The team discussed some pros and cons of each designs and give critism on how it can be imporved.
+Once a scratch design is finalized, the UI is implemented in HTML and CSS.
+
+The desktop application backend used is Tauri.
+Tauri uses web technolgies such as HTML, CSS and JavaScript for the user interface.
+This enables the usage of the various frameworks and technologiees made for the web.
+
+The scratch is quickly ported to HTML and CSS.
+The tailwindCSS is used to help with designing the UI with CSS.
+Tailwind provides many classess to change the layout, colours and margins of an element.
+This makes designing a good looking UI simple and easy.
+
+Some minor changes were made to the scratch when porting to the desktop application.
+These are minors such as paddings and margins to help align the elements better.
+
+The map is also added to the initial UI design.
+However, the map doesn't have any logic yet.
+It is just a simple slippy map that can be moved around and zoom in and out.
+The map is rendered using the MapLibre JS library.
+The MapLibre JS library is a library used to render vector maps.
+The tiles are provided from the file system accessed through the Tauri framework.
+\end{logbook-entry}
+
 \begin{logbook-entry}{Map Logic}{22}{29/01/2024}{02/02/2024}
 One of the main goals of the desktop application is to set the path the boat is going to follow.
 This will inform the boat where the temperature data should be collected.
