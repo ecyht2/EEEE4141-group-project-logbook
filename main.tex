@@ -332,4 +332,43 @@ The communication protocol will send large data such as high precision temperatu
 Therefore, it makes communication in JSON not ideal.
 \end{logbook-entry}
 
+\begin{logbook-entry}{Communication Protocol Logic}{30}{25/03/2024}{29/03/2024}
+I worked on the communication protocol logic on the desktop application.
+The protocol messages are drafted and written into ".proto" files.
+The protocol consists of 4 main types of messages.
+
+The first message describes a packet being sent to the boat and desktop application.
+This message is called "Packet" and consists of a field that describes the type of message being sent and the raw binary message serialized.
+To ensure compabtability of future protocols, a version field is included.
+The version is a string with the format of three numbers seperated by dots.
+The first number is the majore version, the second is the minor version and the last signifies patch (mosty for bugs).
+This is also done with other messages in the protocol as well.
+
+The second message type describes a connection message: "Connect".
+This message just contains a version string to identify the version of the communication protocol.
+
+The other two messages are data messages.
+The "PathData" message contains a list of coordinates for the boat to follow.
+The "BoatData" message consists mainly of the "BoatDataFeature" message which contins all the data collected.
+The data includes temperature, depth, location, time and water body layer.
+Like the other two messages, a version string is also included.
+
+The desktop application starts by searching for any available USB port.
+When a USB port is found, a "Connect" packet is sent.
+If there is no response within 100 milliseconds, another "Connect" packet is sent.
+This process repeats for 10 times, after 10 tries the port is assumed to be unusable/invalid.
+
+Once connected, the application will try to check the connection after some idle time.
+This is done by resending a "Connect" packet.
+The process is simillar to the initial connection and any unsuable/invalid ports are considered disconnected.
+
+When the user wants to run the boat, a "PathData" packet is sent with all the coordinates of the collection points.
+Once, sent the desktop application expects a "Received" packet from the boat to acknowlege that the data is received.
+If no acknowlege packet is received, the "PathData" is resent.
+If the application receives no replies after 10 tries, the port is considered diconnected.
+
+If any "BoatData" is received from the boat, the application replies with a "Received" acknowlegement packet.
+The boat also requires an acknowlegment packet simillar to sending "PathData" and the process is simillar to sending "PathData".
+\end{logbook-entry}
+
 \end{document}
