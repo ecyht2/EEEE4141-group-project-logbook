@@ -371,4 +371,24 @@ If any "BoatData" is received from the boat, the application replies with a "Rec
 The boat also requires an acknowlegment packet simillar to sending "PathData" and the process is simillar to sending "PathData".
 \end{logbook-entry}
 
+\begin{logbook-entry}{Communication Protocol UI}{31}{01/04/2024}{05/04/2024}
+This week, I worked on the UI relating to the communication protocol.
+There are three main parts of the user interface that is affected by the communication protocol.
+
+The first part is the connection status.
+The search for new ports are mainly triggered by the UI.
+The available ports are then sent to the UI when found.
+The UI can then update the status of the connection bar to connected if any ports are found.
+However, when a port is diconnected, an event is send to the UI to indicate the port is disconnected.
+The UI listens to this event and updates the status bar element accordingly.
+
+The desktop application also emit an event when new "BoatData" is received.
+An event handler on the UI listens to this event and update the heatmap data on the UI.
+The new data is then saved to the application storage.
+
+The desktop application also exposes a function to send "PathData".
+When the user click on the "Run" button, the UI gets the map data from the map and calls the exposed function provided.
+This exposed function will send the data for the connected port with the data from the UI to the boat.
+\end{logbook-entry}
+
 \end{document}
