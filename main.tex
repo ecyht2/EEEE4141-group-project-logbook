@@ -2,6 +2,8 @@
 \usepackage{nottingham-logbook}
 \usepackage{nott-titlepage}
 \usepackage{hyperref}
+\usepackage{float}
+\usepackage{tabularx}
 \usepackage{graphicx}
 
 \title{Group Project Logbook}
@@ -12,6 +14,169 @@
 
 \begin{document}
 \maketitle
+
+\begin{logbook-entry}{Stakeholder Meeting}{11}{27/11/2023}{01/12/2023}
+This week, there is another stakeholder meeting.
+In this meeting, the stake holder answers questions from us.
+The stake holder helped clarified some questions for us on what the project scope should be.
+
+However, during the stake holder meeting, he mentioned something that requires us to change the direction of the project.
+The stakeholder mentioned that the boat needs to be able to function in remote areas.
+This implies that the boat should function in places without any internet/data connection.
+
+Our previous ideas requires an internet connection to send path and receive data to and from the boat.
+This is not possible with the new design requirments rendering our current design invalid.
+Luckily this only effects the communication between the boat and the laptop.
+
+We discussed on other potential solutions.
+After some discussions, we settled on making a desktop application instead.
+A desktop application is able to operate offline.
+Hower, we are still discussing on potential soultions of communicating between the boat and the laptop.
+\end{logbook-entry}
+
+\begin{logbook-entry}{Desktop Application Research}{12}{27/11/2023}{01/12/2023}
+We decided to create a desktop application.
+There are a lot of frameworks to help with designing a desktop application.
+Ideally, the application is has cross platform capabilities and is able to access OS functionalities.
+Furthermore, the desktop should also be able to function offline without any internet.
+
+\begin{table}[H]
+    \centering{}
+    \caption{Comparison Table for Different Frameworks}
+    \label{tab:desktop-framework-table}
+    \begin{tabularx}{\textwidth}{l X X}
+        \hline
+        Framework & Advantages & Disadvantages\\
+        \hline
+        Qt & Native Application & Limited map support, hard to compile for cross platform\\
+        Electron & Uses web technologies, easy to use & Slow and big binary sizes\\
+        Tauri & Uses web technologies, faster and smaller binary & Slow compilation\\
+        \hline
+    \end{tabularx}
+\end{table}
+
+I tried out different frameworks by making simple UI with them.
+Then the frameworks are compared with each other.
+In table \ref{tab:desktop-framework-table}, I list the advantages and disadvantages of each of the framework.
+
+However, I chose to use the Tauri framework at the end.
+The Qt framework is not chosen because tthe lack of map support.
+One of the central features of the desktop application is a map to display data and boat path.
+The cross platform capabilities is fine for the prototyping phase.
+
+The Electron framework, works well with various map display frameworks.
+This is due to the wide support of slippy map libraries for JavaScript and the web.
+However, the Electron framework bundles in the chromium web engine making the binary size big.
+Further more, JavaScript is used as the language to interface with the OS.
+JavaScript is not known for it's speed and performance.
+
+Tauri on the other hand, uses web technologies while using the OS built in web engine instead.
+This reduces the binary size.
+Futhermore, the speeed and performance of Rust makes algorithms run faster.
+Lastly, it has good multithreading support for running multiple tasks at the same time.
+Eventhough the Tauri framework is newer and has less support, I think the advantages out-weighs the disadantages.
+
+Another option considered was progressive web apps (PWA).
+These are web applications that runs in the browser and can be installed.
+Unlike normal web applications, PWA can operate offline.
+However, due to the security features of the web browsers, accessing the OS is hard.
+OS functionalities such and saving and reading files and accessing serial ports is hard to implement and some browsers might not support it.
+\end{logbook-entry}
+
+\begin{logbook-entry}{Map Tiles Research}{13}{27/11/2023}{01/12/2023}
+For a map to display, it requires tiles.
+Most slippy maps libraries uses an online source and request the tiles dynamically when needed.
+However, this is not possible due to design requirements.
+
+There are two main types of tiles according to the OpenStreetMap wiki.
+The first type of tile is called the raster tiles.
+These tiles are prerendered tiles.
+They are stored in the form of images or compressed images.
+File formats for raster tiles are ".png", ".jpg" and ".pbf" for compressed images.
+
+The second type of tile is called vector tiles.
+Vector tiles store the map data in the form of vectors.
+These vectors can be in the form of shapes, lines, text and many more.
+The user would have to render the map on the fly using the vector data.
+Due to the nature of vectors, the resolution of the map is still high when zoomed in.
+
+\begin{table}[H]
+    \centering{}
+    \caption{Comparison Table for Different Map Tiles}
+    \label{tab:map-tiles-table}
+    \begin{tabularx}{\textwidth}{l X X}
+        \hline
+        Tiles & Advantages & Disadvantages\\
+        \hline
+        Raster & Quick to render, easy to use & Big storage usage, low resolution when zoomed in\\
+        Vector & High resoultion when zoomed in, uses less storage space & Requires rendering everytime\\
+        \hline
+    \end{tabularx}
+\end{table}
+
+I compared the advantages and disadvantages for each of the tiles.
+The comparison is put in table \ref{tab:map-tiles-table}.
+Due to the limitiations of the design requirements, the vector tile format is chosen.
+
+Eventhough raster tiles renders quickly, the huge storage space required is the main limiting factor.
+For a map to use raster tiles offline, all the images on each map zoom layer needed to be downloaded.
+This requires a lot of file space and is impractical even for a limited are such as the entire Malaysia.
+
+Vector tiles requires rendering on the fly.
+However, most modern laptop should be able to do this quickly.
+Furthermore, since the tiles are rendered on the fly, the user can specify how they want the map to look.
+This is not an important feature but would be a nice feature to have.
+
+The high resolution of the vector tiles also benifits the project.
+Often times, the stake holder might want to have fine grain control over where they want to collect data.
+Being able to zoom in the map while maintaining high resolution helps with points selection when creating the path of the boat.
+
+Due to the usage of vector tiles, a new library is used for displaying the slippy map.
+The Maplibre JS library is chosen due to its wide community support.
+It is a free and open-source project, that can render vector tiles using WebGL.
+\end{logbook-entry}
+
+\begin{logbook-entry}{Tileset Research}{14}{04/12/2023}{08/12/2023}
+The downloaded tiles must be stored in a file format for effective retrieval and storage.
+A set of tiles stored in a specific file format is called a "tileset".
+There are many ways of storing tiles and each of them support different types of tiles.
+    I compared the different formats and list them in table \ref{tab:tileset-table}.
+
+\begin{table}[H]
+    \centering{}
+    \caption{Comparison Table for Different Tileset}
+    \label{tab:tileset-table}
+    \begin{tabularx}{\textwidth}{l X X}
+        \hline
+        Tileset & Advantages & Disadvantages\\
+        \hline
+        MBTiles & Works for both vector and raster tiles, uses sqlite and is widely supported & Requires querying sqlite database for each fetch\\
+        PMTiles & Single file format, headers can be used to only fetch required data & Requires additional library to work, requires conversion from other file formats\\
+        GeoJSON & Human readable format, easy to parse, widely supported & Written in plain text (big file)\\
+        File System Folder & Simple to implement, easy to view all the tiles & Reading from disk is slow, creates a lot files\\
+        \hline
+    \end{tabularx}
+\end{table}
+
+The PMTiles is the chosen tileset format for the desktop application.
+This is due to the single file format which makes distributing the data easy.
+The Maplibre JS library has a plugin for displaying PMTiles, which makes integrating easy.
+
+GeoJSON is not chosen due to its plain text format.
+When the data is uncompressed, the tileset is going to take up a lot of storage space.
+A larger map data means that either the binary size would be bigger or the user needs to download a bigger file when the application first launch.
+Using a different tileset reduces the need for bandwidth or additional hardware.
+
+Storing the tiles in the file system is simple to implement, however the performance is not good.
+The user of the desktop must render the map on the fly.
+Often times a view of a map requires multiple new tiles which means a few fetches from the file system.
+This will slow down the time it takes to render the map and decrease the user experience.
+
+MBTiles is another tileset considered for the desktop application.
+It is widely supported, and most tile downloads are in this format.
+However, there is no built-in way of accessing MBTiles in Maplibre JS.
+This makes using MBTiles hard and requires implementing my own MBTiles fetching library.
+\end{logbook-entry}
 
 \begin{logbook-entry}{UI Design}{15}{11/12/2023}{15/12/2023}
 This week, I worked on the main user interface looks and layout.
