@@ -101,6 +101,46 @@ Axum is very new and is unstable with breaking changes.
 Therefore, Actix web is chosen due to it's stability and frequent updates.
 \end{logbook-entry}
 
+\begin{logbook-entry}{Database Research}{7}{16/10/2023}{20/10/2023}
+A database is responsible for storing paths from the user and data from the boat.
+When the user asks for data, the web-server fetches the data from the database.
+There are many database implementations, each one with their own advantages and disadvantages.
+I researched some common database and compare them in table \ref{tab:db-comparison}.
+
+\begin{table}[H]
+    \centering{}
+    \caption{Table Comparing Different Databases}
+    \label{tab:db-comparison}
+    \begin{tabularx}{\textwidth}{m{5em} X X}
+        \hline
+        Database & Advantages & Disadvantages\\
+        \hline
+        SQLite & Embedable in software, light weight & No parallel insertions\\
+        PostgreSQL & Support for custom data types, good third party integration & Incomplete documentation\\
+        MySQL & Huge community support, simple syntax & No 100\% compatible with SQL language\\
+        Microsoft SQL Server  & Good documentation, goodl cloud support & Proprietary, not free to use\\
+        \hline
+    \end{tabularx}
+\end{table}
+
+After some careful considerations, PostgreSQL is chosen.
+This is mainly due to the support for custom data types.
+There many third party extensions that add data types for geospactial data such as PostGIS.
+The web application will be mainly storing geospacial data, making this feature useful for the project.
+
+Another advantage of PostgreSQL is the availability of online database services.
+This is a huge limitation to SQLite which is useful when storing data locally in a file.
+Microsoft SQL Server also has limited availablity due the cost of the license.
+
+MySQL is also a good option for this project.
+However, the lack of SQL language support limits its usage.
+SQL allows for querying data from the database in a database agnostic way.
+The lack of SQL support also limits the interactions to certain ORM which limits programming language supports.
+Another disadvantage of MySQL is the slow development.
+A slow development cycle limits how fast bugs and new features can come out.
+It is important to have fast response when a new bug especially security bugs is found.
+\end{logbook-entry}
+
 \begin{logbook-entry}{Stakeholder Meeting}{11}{13/11/2023}{17/11/2023}
 This week, there is another stakeholder meeting.
 In this meeting, the stake holder answers questions from us.
