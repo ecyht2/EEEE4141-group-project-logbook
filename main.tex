@@ -63,6 +63,44 @@ We will try our best to follow the schedule throughout the year.
 Hopefully, we can manage our time well and finish the project in time and within the timeline.
 \end{logbook-entry}
 
+\begin{logbook-entry}{Web Frameworks}{6}{09/10/2023}{13/10/2023}
+A web server plays a core part of the project.
+The server serves as the center where the boat and the user interface communicate with each other.
+There are many frameworks to help creating a web server.
+Many frameworks a written in different programming langauages and thus offer different benifits.
+I list some common languages and their respective framework and compare them with each other.
+
+\begin{table}[H]
+    \centering{}
+    \caption{Table Comparing Different Languages Used for Servers}
+    \begin{tabularx}{\textwidth}{l X X}
+        \hline
+        Language & Advantages & Disadvantages\\
+        \hline
+        JavaScript & Same language as frontend, simple to use & Performance issues, requires custom runtime\\
+        PHP & Well tested and used in the industry & Required to learn a specific language\\
+        Ruby & Simple to learn, easy to read & Required to learn a specific language\\
+        Python & Widely used language, massive community support & Performance issues, dynamic language causing potential bugs\\
+        Rust & Stable, type safety, built-in concurrency & Hard to write, long development time\\
+        Go & Fairly easy to write, fast to compile, type safety & Hard to do complex task\\
+        \hline
+    \end{tabularx}
+\end{table}
+
+The Rust language is chosen for it's performance and stability.
+The Go language is an interesting choice in my opinion but I would need to learn a new lanague.
+This will use more time that I might not have.
+This is also the main reason why I didn't choose PHP and Ruby which are two lanagues that I don't know.
+JavaScript and Python are both languages that is widely supported and used.
+However, the performance issues makes it not ideal for running algorithms such as path generation for the boat.
+
+There are three main frameworks in Rust.
+They are: Rocket, Actix Web and Axum.
+Rocket is a good and stable choice but lacks new updates.
+Axum is very new and is unstable with breaking changes.
+Therefore, Actix web is chosen due to it's stability and frequent updates.
+\end{logbook-entry}
+
 \begin{logbook-entry}{Stakeholder Meeting}{11}{13/11/2023}{17/11/2023}
 This week, there is another stakeholder meeting.
 In this meeting, the stake holder answers questions from us.
