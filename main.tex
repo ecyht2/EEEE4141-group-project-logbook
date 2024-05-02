@@ -5,6 +5,34 @@
 \usepackage{float}
 \usepackage{tabularx}
 \usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
 
 \title{Group Project Logbook}
 \author{Tan Hong Kai}
@@ -139,6 +167,80 @@ The lack of SQL support also limits the interactions to certain ORM which limits
 Another disadvantage of MySQL is the slow development.
 A slow development cycle limits how fast bugs and new features can come out.
 It is important to have fast response when a new bug especially security bugs is found.
+\end{logbook-entry}
+
+\begin{logbook-entry}{Initial API}{8}{23/10/2023}{27/10/2023}
+An intial API for the web-server is designed.    
+The API is designed to communicate using the JSON format.
+The user and boat will make HTTP post and get request to add data and receive data.
+
+The API is split different parts.
+Each parts has their respective get and post method to fetch and create data from the database.
+The different parts are shown in table \ref{tab:api-parts}.
+
+\begin{table}[H]
+    \centering{}
+    \caption{API Parts and Their Usage}
+    \label{tab:api-parts}
+    \begin{tabularx}{\textwidth}{m{5em} X X}
+        \hline
+        API Part & Description & HTTP Path\\
+        \hline
+        Trips & The data collection trips the boat went on & \lstinline{/api/trips}\\
+        Paths & The predfined paths the boat can follow & \lstinline{/api/paths}\\
+        GPS & The current location of the boat & \lstinline{/api/gps}\\
+        Data & The data collected by the boat & \lstinline{/api/data}\\
+        \hline
+    \end{tabularx}
+\end{table}
+
+Databases store data in tables.
+The table contains columns in which data is stored.
+Each column has its own data type and relation to other table columns.
+The table layouts are difned in a database schema which ensures the tables and columns are created on the database.
+
+\begin{lstlisting}[language=sql,caption={Database Schema of the Database}]
+DROP TABLE IF EXISTS data;
+DROP TABLE IF EXISTS history;
+DROP TABLE IF EXISTS trips;
+DROP TABLE IF EXISTS paths;
+DROP TYPE IF EXISTS layer;
+
+CREATE TYPE layer AS ENUM ('surface', 'middle', 'sea bed');
+
+CREATE TABLE IF NOT EXISTS history (
+  time TIMESTAMPTZ PRIMARY KEY,
+  location JSON NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS paths (
+  uuid UUID PRIMARY KEY,
+  name NAME NOT NULL,
+  path JSON[] NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS trips (
+  uuid UUID PRIMARY KEY,
+  time TIMESTAMPTZ NOT NULL,
+  path UUID NOT NULL REFERENCES paths
+);
+
+CREATE TABLE IF NOT EXISTS data (
+  id SERIAL PRIMARY KEY,
+  temperature FLOAT8 NOT NULL,
+  location JSON NOT NULL,
+  depth FLOAT8 NOT NULL,
+  layer layer NOT NULL,
+  time TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  trip UUID NOT NULL REFERENCES trips
+);
+\end{lstlisting}
+
+The \lstinline{sqlx} library is used to interact with the database.
+It provides away to fetch data from the database using SQL in Rust.
+The \lstinline{sqlx} library has drivers for many popular databases including PostgreSQL.
+A huge benifit of the \lstinline{sqlx} library is that it can check the syntax of the SQL command at compile time.
+This reduces the amount of errors made as the SQL command would be checked before the server is deployed.
 \end{logbook-entry}
 
 \begin{logbook-entry}{Stakeholder Meeting}{11}{13/11/2023}{17/11/2023}
