@@ -243,6 +243,51 @@ A huge benifit of the \lstinline{sqlx} library is that it can check the syntax o
 This reduces the amount of errors made as the SQL command would be checked before the server is deployed.
 \end{logbook-entry}
 
+\begin{logbook-entry}{Server Hosting and Testing}{9}{30/10/2023}{03/11/2023}
+An important part of a web-server is hosting.
+A web-server must be hosted on a server and connected to by clients of the service.
+There are a few ways to approach hosting for a web-server.
+The first and traditional approach is hosting on some compute service.
+This method requires some server that is connected to the internet.
+The second and more modern approach is Software as a Service (SaaS).
+In SaaS, the user sends code for thee service provider to run.
+The SaaS provider will manage the hosting, removing the need for the user to manage it.
+This makes SaaS convinient to use as the user doesn't need to know how to manage their own server and just focus on developing the web-server.
+
+\begin{table}[H]
+    \caption{Table Comparing between SaaS and Compute Hosting}
+    \begin{tabularx}{\textwidth}{l X X}
+        \hline
+        Hosting Type & Advantages & Disadvantages\\
+        \hline
+        Compute Service & More control and secured company data & Requires extra work to maintain\\
+        Software as a Service & Easy to use and less maintainence & More expensive to scale, less control\\
+        \hline
+    \end{tabularx}
+\end{table}
+
+\lstinline{Shuttle.rs} is a SaaS provider for running Rust web-servers.
+\lstinline{Shuttle.rs} provides support for different many popular Rust frameworks such as Rocket, Axum and Actix web.
+Furthermore, they also provide a database hosting service.
+All applications hosted in their services has access to one of their provided database.
+One of the provided databases is PostgreSQL, making this an ideal service provider for this project.
+
+Using \lstinline{Shuttle.rs} is simple.
+I just need to create an account and install their CLI.
+The web-server must then wrap in their own custom library and run a command to deploy to a \lstinline{Shuttle.rs} project.
+
+A simple test is created to test the connection between the Raspberry Pi and the web-server.
+This test involve a new API to change the colour of the LED.
+This new API saves the current colour of LED to light up.
+There is an API to get the current colour and one to change the colour.
+On the Raspberry Pi, it reads the current colour and set the respective GPIO pins to high.
+The GPIO pins are connected to coloured LEDs and the correct colour should be displayed if the connection is working.
+
+This test serve as a prove of concept that our method works.
+The test is recreated in-front of our supervisor, Dr. Daniel Pu.
+He approved our test and shown that our boat can connect and interact with the web-server.
+\end{logbook-entry}
+
 \begin{logbook-entry}{Stakeholder Meeting}{11}{13/11/2023}{17/11/2023}
 This week, there is another stakeholder meeting.
 In this meeting, the stake holder answers questions from us.
